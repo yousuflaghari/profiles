@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker'; // Assuming this is the correct import for faker library
 import "./profile1.css";
 
 const Profile1 = () => {
@@ -27,6 +26,7 @@ const Profile1 = () => {
                 
                 const fakerResponse = await fetch("https://fakerapi.it/api/v1/users");
                 const userData = await fakerResponse.json();
+                console.log(userData.data,"29")
                 setData(userData.data);
             } catch (error) {
                 console.error("Error fetching profiles:", error);
@@ -37,41 +37,17 @@ const Profile1 = () => {
     }, []);
 
     return (
-        <Router>
-            <div>
-                <h1>Profiles</h1>
-                <div className="avatar-container">
-                    {profiles.map((profile, index) => (
-                        <Link key={index} to={`/profile/${index}`} className="profile-link">
-                            <div className="profile">
-                                <img src={profile} alt={`Profile ${index}`} className="img" />
-                                <div className="name">{data[index]?.firstname}</div>
-                                <div className="email">{data[index]?.email}</div>
-                                <div className="phone">{data[index]?.website}</div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-                <Switch>
-                    <Route path="/profile/:index" render={({ match }) => (
-                        <ProfileDetail data={data[match.params.index]} />
-                    )} />
-                </Switch>
-            </div>
-        </Router>
-    );
-};
-
-const ProfileDetail = ({ data }) => {
-    if (!data) return null;
-    
-    return (
         <div>
-            <h2>Profile Detail</h2>
-            <div className="profile">
-                <div className="name">{data.firstname}</div>
-                <div className="email">{data.email}</div>
-                <div className="phone">{data.website}</div>
+            <h1>Profiles</h1>
+            <div className="avatar-container">
+                {profiles.map((profile, index) => (
+                    <div key={index} className="profile">
+                        <img src={profile} alt={`Profile ${index}`} className="img" />
+                        <div className="name">{data[index]?.firstname}</div>
+                        <div className="email">{data[index]?.email}</div>
+                        <div className="phone">{data[index]?.website}</div>
+                    </div>
+                ))}
             </div>
         </div>
     );
