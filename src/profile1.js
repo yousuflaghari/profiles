@@ -1,56 +1,47 @@
 import React, { useState, useEffect } from "react";
-import { faker } from '@faker-js/faker'; // Assuming this is the correct import for faker library
+import { faker } from "@faker-js/faker";
 import "./profile1.css";
 
 const Profile1 = () => {
-    const apis = [
-        "https://api.dicebear.com/8.x/pixel-art/svg",
-        "https://api.dicebear.com/8.x/lorelei/svg",
-        "https://api.dicebear.com/8.x/pixel-art/svg?seed=John",
-        "https://api.dicebear.com/8.x/pixel-art/svg?seed=Jane",
-        "https://api.dicebear.com/8.x/pixel-art/svg?seed=John&hair=short01,short02,short03,short04,short05",
-        "https://api.dicebear.com/8.x/pixel-art/svg?seed=Jane&hair=long01,long02,long03,long04,long05",
-        "https://api.dicebear.com/8.x/lorelei/svg?flip=true",
-        "https://api.dicebear.com/8.x/lorelei/svg?flip=false",
-        "https://api.dicebear.com/8.x/bottts/svg"
-    ];
+  const [profiles, setProfiles] = useState([]);
 
-    const [profiles, setProfiles] = useState([]);
-    const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        // Generate fake user data using faker library
+        const userData = Array.from({ length: 9 }, () => ({
+          firstname: faker.name.firstName(),
+          email: faker.internet.email(),
+          website: faker.internet.url(),
+        }));
+        setProfiles(userData);
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+      }
+    };
 
-    useEffect(() => {
-        const fetchProfiles = async () => {
-            try {
-                const fetchedProfiles = await Promise.all(apis.map(api => fetch(api).then(response => response.url)));
-                setProfiles(fetchedProfiles);
-                
-                const fakerResponse = await fetch("https://fakerapi.it/api/v1/users");
-                const userData = await fakerResponse.json();
-                console.log(userData.data,"29")
-                setData(userData.data);
-            } catch (error) {
-                console.error("Error fetching profiles:", error);
-            }
-        };
+    fetchProfiles();
+  }, []);
 
-        fetchProfiles();
-    }, []);
-
-    return (
-        <div>
-            <h1>Profiles</h1>
-            <div className="avatar-container">
-                {profiles.map((profile, index) => (
-                    <div key={index} className="profile">
-                        <img src={profile} alt={`Profile ${index}`} className="img" />
-                        <div className="name">{data[index]?.firstname}</div>
-                        <div className="email">{data[index]?.email}</div>
-                        <div className="phone">{data[index]?.website}</div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Profiles</h1>
+      <div className="avatar-container">
+        {profiles.map((profile, index) => (
+          <div key={index} className="profile">
+            <img
+              src={`https://api.dicebear.com/8.x/pixel-art/svg?seed=${profile.firstname}`}
+              alt={`Profile ${index}`}
+              className="img"
+            />
+            <div className="name">{profile.firstname}</div>
+            <div className="email">{profile.email}</div>
+            <div className="phone">{profile.website}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Profile1;
