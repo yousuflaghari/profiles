@@ -8,7 +8,7 @@ const Profile1 = ({ profiles, setProfiles }) => {
         const fetchProfiles = async () => {
             try {
                 const userData = Array.from({ length: 9 }, () => ({
-                    firstname: faker.name.firstName(),
+                    firstname: faker.person.firstName(),
                     email: faker.internet.email(),
                     website: faker.internet.url(),
                 }));
@@ -23,7 +23,7 @@ const Profile1 = ({ profiles, setProfiles }) => {
 
     return (
         <div>
-            <h1>Profiles</h1>
+            <h1 className="heading">Profiles</h1>
             <div className="avatar-container">
                 {profiles.map((profile, index) => (
                     <Link to={`/profile/${index}`} key={index} className="322-link">

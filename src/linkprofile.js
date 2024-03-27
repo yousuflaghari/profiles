@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 const Linkprofile = ({ profiles }) => {
   const { index } = useParams();
-
+console.log(index)
   const profile = profiles[index];
 
   return (
