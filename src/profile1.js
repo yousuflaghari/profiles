@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { faker } from "@faker-js/faker";
 import "./profile1.css";
 import { Link } from "react-router-dom";
 
 const Profile1 = ({ profiles, setProfiles }) => {
-    const [count, setcount] = useState(0)
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
@@ -13,9 +12,7 @@ const Profile1 = ({ profiles, setProfiles }) => {
                     email: faker.internet.email(),
                     website: faker.internet.url(),
                 }));
-                let profilelength = userData.length;
-                setcount(profilelength)
-            console.log(count)
+               
                 setProfiles(userData);
             } catch (error) {
                 console.error("Error fetching profiles:", error);
@@ -27,9 +24,11 @@ const Profile1 = ({ profiles, setProfiles }) => {
     }, [setProfiles]);
 
     return (
-        <div>
-            <h1 className="heading">Profiles</h1>
-            <h2 className="profilesnum"> {count +"  "+ "profiles"}</h2>
+        <div className="main">
+            <div className="container">
+            <p className="p1">OUR TEAM MEMBERS</p>
+            <p className="p2">MEET OUR TEAM!</p>
+            </div>
             <div className="avatar-container">
                 {profiles.map((profile, index) => (
                     <Link to={`/profile/${index}`} key={index} className="link">
@@ -41,7 +40,7 @@ const Profile1 = ({ profiles, setProfiles }) => {
                             />
                             <div className="name">{profile.firstname}</div>
                             <div className="email">{profile.email}</div>
-                            <div className="phone">{profile.website}</div>
+                            <div className="website">{profile.website}</div>
                         </div>
                     </Link>
                 ))}
