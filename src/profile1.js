@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { faker } from "@faker-js/faker";
 import "./profile1.css";
 import { Link } from "react-router-dom";
 
-const Profile1 = () => {
-    const [profiles, setProfiles] = useState([]);
-
+const Profile1 = ({ profiles, setProfiles }) => {
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
                 const userData = Array.from({ length: 9 }, () => ({
-                    firstname: faker.firstName(),
+                    firstname: faker.name.firstName(),
                     email: faker.internet.email(),
                     website: faker.internet.url(),
                 }));
@@ -21,7 +19,7 @@ const Profile1 = () => {
         };
 
         fetchProfiles();
-    }, []);
+    }, [setProfiles]);
 
     return (
         <div>
