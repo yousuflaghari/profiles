@@ -17,6 +17,13 @@
 .h3 {
     margin: 0px;
 }
+.inputField {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+  }
+  
 .img1{
     background-color: white;
     margin-top: -48px;
@@ -65,9 +72,12 @@
 
 .firstName,
 .firstNamep {
-    margin: 5px;
+    margin: 0px;
+   
 }
-
+.firstNamep {
+font-size: 14px;   
+}
 .headingdetail {
     margin-left: 4px;
 }
