@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./linkprofile.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare , faTrash } from '@fortawesome/free-solid-svg-icons'
+
 
 const Linkprofile = ({ profiles }) => {
   const { index } = useParams();
@@ -51,7 +54,7 @@ const Linkprofile = ({ profiles }) => {
     setEditMode(false);
   };
   const handlecancelwebsite = () => {
-   setWebsite(profile.website);
+    setWebsite(profile.website);
     setEditMode(false);
   };
 
@@ -64,66 +67,67 @@ const Linkprofile = ({ profiles }) => {
           <div className="details">
             <h3 className="headingdetail">Details</h3>
             <h6 className="firstName">First Name</h6>
-            {editMode ? 
+
+            {editMode ?
               <input
                 type="text"
                 value={firstName}
                 onChange={handleFirstNameChange}
               />
-             : 
+              :
               <p className="firstNamep">{firstName}</p>
             }
-            {editMode ? 
+            {editMode ?
               <div>
                 <button onClick={handlesavename}>Save</button>
                 <button onClick={handlecancelname}>Cancel</button>
               </div>
-             : 
+              :
               <div>
-                <button onClick={handleeditname}>Edit</button>
-                <button>Delete</button>
+                <FontAwesomeIcon icon={faPenToSquare} onClick={handleeditname}/>
+                <FontAwesomeIcon icon={faTrash} />
               </div>
             }
             <h6 className="firstName">Email</h6>
-            {editMode ? 
+            {editMode ?
               <input
                 type="text"
                 value={email}
                 onChange={handleEmailChange}
               />
-             : 
+              :
               <p className="firstNamep">{email}</p>
             }
-            {editMode ? 
+            {editMode ?
               <div>
                 <button onClick={handlesaveemail}>Save</button>
                 <button onClick={handlecancelemail}>Cancel</button>
               </div>
-             : 
+              :
               <div>
-                <button onClick={handleeditemail}>Edit</button>
-                <button>Delete</button>
+                <FontAwesomeIcon icon={faPenToSquare} onClick={handleeditemail}/>
+                <FontAwesomeIcon icon={faTrash} />
               </div>
             }
             <h6 className="firstName">Website</h6>
-            {editMode ? 
+            {editMode ?
               <input
                 type="text"
                 value={website}
                 onChange={handleWebsiteChange}
               />
-             : 
+              :
               <p className="firstNamep">{website}</p>
             }
-            {editMode ? 
+            {editMode ?
               <div>
                 <button onClick={handlesavewebsite}>Save</button>
                 <button onClick={handlecancelwebsite}>Cancel</button>
               </div>
-             : 
+              :
               <div>
-                <button onClick={handleeditwebsite}>Edit</button>
-                <button>Delete</button>
+                <FontAwesomeIcon icon={faPenToSquare}  onClick={handleeditwebsite}/>
+                <FontAwesomeIcon icon={faTrash} />
               </div>
             }
           </div>
