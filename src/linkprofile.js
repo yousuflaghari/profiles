@@ -1,62 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./linkprofile.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare , faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
 
 
-const Linkprofile = ({ profiles }) => {
+const Linkprofile = ({ profiles, setProfiles }) => {
   const { index } = useParams();
   const profile = profiles[index];
+  const [editMode, setEditMode] = useState(false);
   const [firstName, setFirstName] = useState(profile.first_name);
   const [email, setEmail] = useState(profile.email);
   const [website, setWebsite] = useState(profile.website);
-  const [editMode, setEditMode] = useState(false);
+  
+  useEffect(() => {
+    const fetchProfile = async () => {
+      console.log("aaaaaaaa")
+        const response = await axios.get(`https://6343e0272dadea1175af15e4.mockapi.io/users/${profile/index}`);
+        const data = response.data;
+       
+    };
 
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
+    fetchProfile();
+  }, [profile.id]);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'firstName') {
+      setFirstName(value);
+    } else if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'website') {
+      setWebsite(value);
+    }
   };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleWebsiteChange = (e) => {
-    setWebsite(e.target.value);
-  };
-
-  const handleeditname = () => {
+  const handleEdit = () => {
     setEditMode(true);
   };
-  const handleeditemail = () => {
-    setEditMode(true);
-  };
-  const handleeditwebsite = () => {
-    setEditMode(true);
-  };
+ 
+  const handleSave = async () => {
+    try {
+      await axios.put(`https://6343e0272dadea1175af15e4.mockapi.io/users/${profile.id}`, {
+        ...profile,
+        first_name: firstName,
+        email:email,
+        website:website
+      });
+      setProfiles(prevProfiles => {
+        const updatedProfiles = [...prevProfiles];
+        updatedProfiles[index] = { ...profile, first_name: firstName, email, website };
+        return updatedProfiles;
+      });
 
-  const handlesavename = () => {
-    setEditMode(false);
+      setEditMode(false);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
-  const handlesaveemail = () => {
-    setEditMode(false);
-  };
-  const handlesavewebsite = () => {
-    setEditMode(false);
-  };
+  
 
-  const handlecancelname = () => {
+  const handleCancel = () => {
     setFirstName(profile.first_name);
-    setEditMode(false);
-  };
-  const handlecancelemail = () => {
     setEmail(profile.email);
-    setEditMode(false);
-  };
-  const handlecancelwebsite = () => {
     setWebsite(profile.website);
     setEditMode(false);
-  };
+  }
 
   return (
     <div className="profilemain">
@@ -71,62 +80,70 @@ const Linkprofile = ({ profiles }) => {
             {editMode ?
               <input
                 type="text"
+                name="firstName"
                 value={firstName}
-                onChange={handleFirstNameChange}
+                onChange={handleInputChange}
               />
               :
               <p className="firstNamep">{firstName}</p>
             }
-            {editMode ?
+            {editMode &&
               <div>
-                <button onClick={handlesavename}>Save</button>
-                <button onClick={handlecancelname}>Cancel</button>
+                <button onClick={handleSave}>Save</button>
+                <button onClick={handleCancel}>Cancel</button>
               </div>
-              :
+            }
+            {!editMode &&
               <div>
-                <FontAwesomeIcon icon={faPenToSquare} onClick={handleeditname}/>
+                <FontAwesomeIcon icon={faPenToSquare} onClick={handleEdit} />
                 <FontAwesomeIcon icon={faTrash} />
               </div>
             }
+
             <h6 className="firstName">Email</h6>
             {editMode ?
               <input
                 type="text"
+                name="email"
                 value={email}
-                onChange={handleEmailChange}
+                onChange={handleInputChange}
               />
               :
               <p className="firstNamep">{email}</p>
             }
-            {editMode ?
+            {editMode &&
               <div>
-                <button onClick={handlesaveemail}>Save</button>
-                <button onClick={handlecancelemail}>Cancel</button>
+                <button onClick={handleSave}>Save</button>
+                <button onClick={handleCancel}>Cancel</button>
               </div>
-              :
+            }
+            {!editMode &&
               <div>
-                <FontAwesomeIcon icon={faPenToSquare} onClick={handleeditemail}/>
+                <FontAwesomeIcon icon={faPenToSquare} onClick={handleEdit} />
                 <FontAwesomeIcon icon={faTrash} />
               </div>
             }
+
             <h6 className="firstName">Website</h6>
             {editMode ?
               <input
                 type="text"
+                name="website"
                 value={website}
-                onChange={handleWebsiteChange}
+                onChange={handleInputChange}
               />
               :
               <p className="firstNamep">{website}</p>
             }
-            {editMode ?
+            {editMode &&
               <div>
-                <button onClick={handlesavewebsite}>Save</button>
-                <button onClick={handlecancelwebsite}>Cancel</button>
+                <button onClick={handleSave}>Save</button>
+                <button onClick={handleCancel}>Cancel</button>
               </div>
-              :
+            }
+            {!editMode &&
               <div>
-                <FontAwesomeIcon icon={faPenToSquare}  onClick={handleeditwebsite}/>
+                <FontAwesomeIcon icon={faPenToSquare} onClick={handleEdit} />
                 <FontAwesomeIcon icon={faTrash} />
               </div>
             }
@@ -155,6 +172,5 @@ const Linkprofile = ({ profiles }) => {
       </div>
     </div>
   );
-};
-
+          }
 export default Linkprofile;

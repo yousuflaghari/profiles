@@ -8,7 +8,6 @@ const Profile1 = ({ profiles, setProfiles }) => {
             try {
                 const Response = await fetch("https://6343e0272dadea1175af15e4.mockapi.io/users")
                 const data = await Response.json()
-                console.log(data)
                 setProfiles(data)
             } catch (error) {
                 console.error("Error fetching profiles:", error);
