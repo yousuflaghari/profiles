@@ -15,7 +15,7 @@ function App() {
         />
         <Route
           path="/profile/:index"
-          element={<Linkprofile profiles={profiles} />}
+          element={<Linkprofile profiles={profiles} setProfiles={setProfiles}/>}
         />
       </Routes>
     </Router>
