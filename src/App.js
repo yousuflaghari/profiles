@@ -14,8 +14,10 @@ function App() {
           element={<Profile1 profiles={profiles} setProfiles={setProfiles} />}
         />
         <Route
-          path="/profile/:index"
-          element={<Linkprofile profiles={profiles} setProfiles={setProfiles}/>}
+          path="/profile/:id"
+          element={
+            <Linkprofile profiles={profiles} setProfiles={setProfiles} />
+          }
         />
       </Routes>
     </Router>
