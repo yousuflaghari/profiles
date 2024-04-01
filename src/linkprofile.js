@@ -8,20 +8,20 @@ import axios from "axios";
 
 const Linkprofile = ({ profiles, setProfiles }) => {
   const { index } = useParams();
-  const profile = profiles[index];
+  const profileIndex = parseInt(index, 10)
+  const profile = profiles[profileIndex];
   const [editMode, setEditMode] = useState(false);
   const [firstName, setFirstName] = useState(profile.first_name);
   const [email, setEmail] = useState(profile.email);
   const [website, setWebsite] = useState(profile.website);
-  
+
   useEffect(() => {
     const fetchProfile = async () => {
-      console.log("aaaaaaaa")
-        const response = await axios.get(`https://6343e0272dadea1175af15e4.mockapi.io/users/${profile/index}`);
-        const data = response.data;
-       
+      const response = await axios.get(`https://6343e0272dadea1175af15e4.mockapi.io/users/${profile.id}`);
+      const data = response.data;
+      setProfiles(data)
+      console.log(data, "aaaaaaaaa")
     };
-
     fetchProfile();
   }, [profile.id]);
   const handleInputChange = (e) => {
@@ -38,14 +38,14 @@ const Linkprofile = ({ profiles, setProfiles }) => {
   const handleEdit = () => {
     setEditMode(true);
   };
- 
+
   const handleSave = async () => {
     try {
       await axios.put(`https://6343e0272dadea1175af15e4.mockapi.io/users/${profile.id}`, {
         ...profile,
         first_name: firstName,
-        email:email,
-        website:website
+        email: email,
+        website: website
       });
       setProfiles(prevProfiles => {
         const updatedProfiles = [...prevProfiles];
@@ -58,7 +58,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
       console.error('Error updating profile:', error);
     }
   };
-  
+
 
   const handleCancel = () => {
     setFirstName(profile.first_name);
@@ -172,5 +172,5 @@ const Linkprofile = ({ profiles, setProfiles }) => {
       </div>
     </div>
   );
-          }
+}
 export default Linkprofile;
