@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import "./profile1.css";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
 
 const Profile1 = ({ profiles, setProfiles }) => {
+    
     useEffect(() => {
         const fetchProfiles = async () => {
             try {
@@ -12,22 +15,27 @@ const Profile1 = ({ profiles, setProfiles }) => {
             } catch (error) {
                 console.error("Error fetching profiles:", error);
             }
-            
+
         };
-     
+
         fetchProfiles();
     }, [setProfiles]);
 
     return (
-        
-         <div className="main">
-            <div className="container">
-            <p className="p1">OUR TEAM MEMBERS</p>
-            <p className="p2">MEET OUR TEAM!</p>
+        <div className="main">
+            <div className="new">
+                <div className="container">
+                    <p className="p1">OUR TEAM MEMBERS</p>
+                    <p className="p2">MEET OUR TEAM!</p>
+                </div>
+                <Link to="/formprofile">
+                    <FontAwesomeIcon className="addprofile"  icon={faAddressBook} size="3x" color="white" ></FontAwesomeIcon>
+                </Link>
             </div>
+
             <div className="avatar-container">
                 {profiles.map((profile, index) => (
-                    <Link to={`/profile/${index}`} key={index} className="link">
+                    <Link to={`/profile/${profile.id}`} key={index} className="link">
                         <div key={index} className="profile">
                             <img
                                 src={profile.image}
@@ -40,9 +48,10 @@ const Profile1 = ({ profiles, setProfiles }) => {
                         </div>
                     </Link>
                 ))}
+
             </div>
-        </div> 
-    
+        </div>
+
     );
 };
 

@@ -6,24 +6,30 @@ import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 
 
+
 const Linkprofile = ({ profiles, setProfiles }) => {
-  const { index } = useParams();
-  const profileIndex = parseInt(index, 10)
-  const profile = profiles[profileIndex];
+
+  const { id } = useParams();
+
+  const index = profiles?.findIndex((profile) => profile.id === id);
+  const profile = profiles.find((profile) => profile.id === id);
+
   const [editMode, setEditMode] = useState(false);
-  const [firstName, setFirstName] = useState(profile.first_name);
-  const [email, setEmail] = useState(profile.email);
-  const [website, setWebsite] = useState(profile.website);
+  const [firstName, setFirstName] = useState(profile?.first_name);
+  const [email, setEmail] = useState(profile?.email);
+  const [website, setWebsite] = useState(profile?.website);
+
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const response = await axios.get(`https://6343e0272dadea1175af15e4.mockapi.io/users/${profile.id}`);
+    if (profile) return;
+    const fetchprofile = async () => {
+      const response = await axios.get(`https://6343e0272dadea1175af15e4.mockapi.io/users/${id}`);
       const data = response.data;
-      setProfiles(data)
-      console.log(data, "aaaaaaaaa")
-    };
-    fetchProfile();
-  }, [profile.id]);
+      setProfiles([data])
+    }
+    fetchprofile();
+  }, [id]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'firstName') {
@@ -37,6 +43,9 @@ const Linkprofile = ({ profiles, setProfiles }) => {
 
   const handleEdit = () => {
     setEditMode(true);
+    setEmail(profile.email)
+    setFirstName(profile.first_name)
+    setWebsite(profile.website)
   };
 
   const handleSave = async () => {
@@ -66,12 +75,24 @@ const Linkprofile = ({ profiles, setProfiles }) => {
     setWebsite(profile.website);
     setEditMode(false);
   }
+  const handledelete = async () => {
+    try {
+      await axios.delete(`https://6343e0272dadea1175af15e4.mockapi.io/users/${profile.id}`);
+      setProfiles(prevProfiles => prevProfiles.filter(item => item.id !== profile.id));
+
+    } catch (error) {
+      console.error('Error deleting profile:', error);
+    }
+  }
 
   return (
     <div className="profilemain">
       <div className="container1">
         <h1 className="h1">Profile</h1>
         <h6 className="h3">I'm a creative webdeveloper</h6>
+        <div className="delete-div">
+              <FontAwesomeIcon icon={faTrash} size="3x" color="rgb(14, 178, 184)" onClick={handledelete} />
+            </div>
         <div className="container2">
           <div className="details">
             <h3 className="headingdetail">Details</h3>
@@ -85,7 +106,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
                 onChange={handleInputChange}
               />
               :
-              <p className="firstNamep">{firstName}</p>
+              <p className="firstNamep">{profile?.first_name}</p>
             }
             {editMode &&
               <div>
@@ -96,7 +117,6 @@ const Linkprofile = ({ profiles, setProfiles }) => {
             {!editMode &&
               <div>
                 <FontAwesomeIcon icon={faPenToSquare} onClick={handleEdit} />
-                <FontAwesomeIcon icon={faTrash} />
               </div>
             }
 
@@ -109,7 +129,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
                 onChange={handleInputChange}
               />
               :
-              <p className="firstNamep">{email}</p>
+              <p className="firstNamep">{profile?.email}</p>
             }
             {editMode &&
               <div>
@@ -120,7 +140,6 @@ const Linkprofile = ({ profiles, setProfiles }) => {
             {!editMode &&
               <div>
                 <FontAwesomeIcon icon={faPenToSquare} onClick={handleEdit} />
-                <FontAwesomeIcon icon={faTrash} />
               </div>
             }
 
@@ -133,7 +152,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
                 onChange={handleInputChange}
               />
               :
-              <p className="firstNamep">{website}</p>
+              <p className="firstNamep">{profile?.website}</p>
             }
             {editMode &&
               <div>
@@ -144,7 +163,6 @@ const Linkprofile = ({ profiles, setProfiles }) => {
             {!editMode &&
               <div>
                 <FontAwesomeIcon icon={faPenToSquare} onClick={handleEdit} />
-                <FontAwesomeIcon icon={faTrash} />
               </div>
             }
           </div>
@@ -155,10 +173,11 @@ const Linkprofile = ({ profiles, setProfiles }) => {
               innovation, wielding the power to shape the digital landscape and
               solve complex problems through code.
             </p>
+           
           </div>
           <div className="avatar">
-            <img src={profile.image} alt={`Profile ${index}`} className="img1" />
             <div className="avatardiv">
+              <img src={profile?.image} alt={`Profile ${index}`} className="img1" />
               <h3 className="h4">HELLO I'M</h3>
               <h3 className="h4">{firstName}</h3>
               <p className="paragraph1">
