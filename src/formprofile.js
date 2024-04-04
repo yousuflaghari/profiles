@@ -3,48 +3,41 @@ import axios from "axios";
 import "./formprofile.css";
 
 const FormProfile = ({ profiles, setProfiles }) => {
-  const [data, setData] = useState({
+  const [inputdata, setinputdata] = useState({
     first_name: "",
     email: "",
     website: "",
   });
   const [save, setSave] = useState(false);
-  console.log(profiles);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData((prevData) => ({
+    setinputdata((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const HandleSave = async () => {
-    setSave(true);
-  };
-  useEffect(() => {
-    if (save) {
-      try {
-        const savedata = async () => {
-          const response = axios.post(
-            `https://6343e0272dadea1175af15e4.mockapi.io/users`,
-            data
-          );
-          console.log("Profile created successfully:", response.data);
-          setProfiles((prevProfiles) => [...prevProfiles, data]);
-          setData({
-            first_name: "",
-            email: "",
-            website: "",
-          });
-        };
-        savedata();
-      } catch (error) {
-        console.error("Error creating profile:", error);
-      } finally {
-        setSave(false);
-      }
+    try {
+      const response = await axios.post(
+        `https://6343e0272dadea1175af15e4.mockapi.io/users`,
+        inputdata
+      );
+      console.log("Profile created successfully:", response.data);
+
+      setProfiles((prevProfiles) => [...prevProfiles, response.data]);
+      console.log(profiles);
+      setinputdata({
+        first_name: "",
+        email: "",
+        website: "",
+      });
+    } catch (error) {
+      console.error("Error creating profile:", error);
+    } finally {
+      setSave(false);
     }
-  }, [save]);
+  };
   return (
     <div className="main-container">
       <div className="form-container">
@@ -54,7 +47,6 @@ const FormProfile = ({ profiles, setProfiles }) => {
           className="input"
           name="first_name"
           placeholder="Enter your first name"
-          value={data.first_name}
           onChange={handleChange}
         />
 
@@ -64,7 +56,7 @@ const FormProfile = ({ profiles, setProfiles }) => {
           className="input"
           name="email"
           placeholder="Enter your email"
-          value={data.email}
+          value={inputdata.email}
           onChange={handleChange}
         />
 
@@ -74,7 +66,7 @@ const FormProfile = ({ profiles, setProfiles }) => {
           className="input"
           name="website"
           placeholder="Enter your website URL"
-          value={data.website}
+          value={inputdata.website}
           onChange={handleChange}
         />
 
