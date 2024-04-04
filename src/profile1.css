@@ -3,36 +3,69 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
     flex-direction: column;
-    margin-left: 100px;
 }
-
-.heading {
+.main{
+    background-color: rgb(75, 86, 86);
     display: flex;
     justify-content: center;
-    font-family: sans-serif;
-    font-size: xxx-large;
+    align-items: center;
+    flex-direction: column;
+}
+.container {
+    background-color: white;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 340px; 
+    border: 4px solid #ccc; 
+    padding: 10px;
+    border-radius: 20px;
+}
+.p1{
+    font-size: 15px;
+    font-weight: bold;
+}
+.p2{
+    font-size: 10px;
+}
+.container p {
+    word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
 }
 
 .profile {
-    border: 2px solid;
-    border-radius: 10px;
-    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: white;
+    border: 4px solid #ccc; 
+    border-radius: 50px 50px 0 0;
+    width: 226px;
     height: 250px;
 }
 
 .img {
     width: 100px;
     height: 100px;
-    margin-left: 80px;
-    margin-top: 15px;
+   border-radius: 50%;
+   border: 4px solid #ccc; 
 }
+.new{
+    display: flex;
+    align-items: center;
+    
+}
+.addprofile{
 
+}
 .name,
-.phone,
+.website,
 .email {
-    margin-left: 12px;
-    border: 1px solid;
-    height: 30px;
+    height: 25px;
     width: 225px;
     display: flex;
     align-items: center;
@@ -47,9 +80,20 @@
 .name {
     font-weight: bold;
     margin-top: 10px;
+    color: #cc0000;
 }
-
+.website{
+    color: white;
+    border: 1px solid;
+    background: linear-gradient(to right, #f65145, #cc0000);
+}
 .email,
-.phone {
+.website {
     margin-top: 5px;
+}
+.heading-div{
+    border: 1px solid;
+    height: 100px;
+    width: 200px;
+    border-radius: 40px;
 }
