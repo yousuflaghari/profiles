@@ -19,19 +19,28 @@ const FormProfile = ({ profiles, setProfiles }) => {
 
   const HandleSave = async () => {
     try {
-      const response = await axios.post(
-        `https://6343e0272dadea1175af15e4.mockapi.io/users`,
-        inputdata
+      setSave(true);
+      const profileexist = profiles.find(
+        (profile) => profile.first_name === inputdata.first_name
       );
-      console.log("Profile created successfully:", response.data);
 
-      setProfiles((prevProfiles) => [...prevProfiles, response.data]);
-      console.log(profiles);
-      setinputdata({
-        first_name: "",
-        email: "",
-        website: "",
-      });
+      if (!profileexist) {
+        const response = await axios.post(
+          `https://6343e0272dadea1175af15e4.mockapi.io/users`,
+          inputdata
+        );
+        console.log("Profile created successfully:", response.data);
+
+        setProfiles((prevProfiles) => [...prevProfiles, response.data]);
+        console.log(profiles);
+        setinputdata({
+          first_name: "",
+          email: "",
+          website: "",
+        });
+      } else {
+        alert("profile already exist");
+      }
     } catch (error) {
       console.error("Error creating profile:", error);
     } finally {
