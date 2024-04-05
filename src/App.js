@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Profile1 from "./profile1";
-import Linkprofile from "./linkprofile";
-import Formprofile from "./formprofile";
+import Profiles from "./pages/profiles";
+import Profile from "./pages/profile";
+import Addprofile from "./pages/addprofile";
 
 function App() {
   const [profiles, setProfiles] = useState([]);
@@ -12,15 +12,15 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Profile1 profiles={profiles} setProfiles={setProfiles} />}
+          element={<Profiles profiles={profiles} setProfiles={setProfiles} />}
         />
         <Route
           path="/profile/:id"
-          element={<Linkprofile profiles={profiles} setProfiles={setProfiles}/>}
+          element={<Profile profiles={profiles} setProfiles={setProfiles} />}
         />
         <Route
           path="/formprofile"
-          element={<Formprofile profiles={profiles} setProfiles={setProfiles} />}
+          element={<Addprofile profiles={profiles} setProfiles={setProfiles} />}
         />
       </Routes>
     </Router>

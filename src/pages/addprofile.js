@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./formprofile.css";
+import "./addprofile.css";
+import Input from "../components/input";
+import Button from "../components/button";
 
-const FormProfile = ({ profiles, setProfiles }) => {
+const Addprofile = ({ profiles, setProfiles }) => {
   const [inputdata, setinputdata] = useState({
     first_name: "",
     email: "",
@@ -51,16 +53,16 @@ const FormProfile = ({ profiles, setProfiles }) => {
     <div className="main-container">
       <div className="form-container">
         <label htmlFor="first_name">First Name:</label>
-        <input
+        <Input
           type="text"
-          className="input"
           name="first_name"
           placeholder="Enter your first name"
+          value={inputdata.first_name}
           onChange={handleChange}
         />
 
         <label htmlFor="email">Email:</label>
-        <input
+        <Input
           type="email"
           className="input"
           name="email"
@@ -70,7 +72,7 @@ const FormProfile = ({ profiles, setProfiles }) => {
         />
 
         <label htmlFor="website">Website:</label>
-        <input
+        <Input
           type="text"
           className="input"
           name="website"
@@ -79,10 +81,10 @@ const FormProfile = ({ profiles, setProfiles }) => {
           onChange={handleChange}
         />
 
-        <button onClick={HandleSave}>Save</button>
+        <Button onClick={HandleSave} name="Save"></Button>
       </div>
     </div>
   );
 };
 
-export default FormProfile;
+export default Addprofile;

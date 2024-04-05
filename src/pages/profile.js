@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import "./linkprofile.css";
+import { useParams, useNavigate } from "react-router-dom";
+import "./profile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import Input from "../components/input";
+import Button from "../components/button";
+import Avatar from "../components/avatar";
 
-const Linkprofile = ({ profiles, setProfiles }) => {
+const Profile = ({ profiles, setProfiles }) => {
   const { id } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const index = profiles?.findIndex((profile) => profile.id === id);
   const profile = profiles.find((profile) => profile.id === id);
 
@@ -62,13 +65,14 @@ const Linkprofile = ({ profiles, setProfiles }) => {
         updatedProfiles[index] = {
           ...profile,
           first_name: firstName,
-          email,
-          website,
+          email: email,
+          website: website,
         };
         return updatedProfiles;
       });
 
       setEditMode(false);
+      navigate("./");
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -88,7 +92,6 @@ const Linkprofile = ({ profiles, setProfiles }) => {
       setProfiles((prevProfiles) =>
         prevProfiles.filter((item) => item.id !== profile.id)
       );
-      history.push("/profile");
     } catch (error) {
       console.error("Error deleting profile:", error);
     }
@@ -113,7 +116,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
             <h6 className="firstName">First Name</h6>
 
             {editMode ? (
-              <input
+              <Input
                 type="text"
                 name="firstName"
                 value={firstName}
@@ -124,8 +127,8 @@ const Linkprofile = ({ profiles, setProfiles }) => {
             )}
             {editMode && (
               <div>
-                <button onClick={handleSave}>Save</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <Button onClick={handleSave} name="Save"></Button>
+                <Button onClick={handleCancel} name="Cancel"></Button>
               </div>
             )}
             {!editMode && (
@@ -136,7 +139,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
 
             <h6 className="firstName">Email</h6>
             {editMode ? (
-              <input
+              <Input
                 type="text"
                 name="email"
                 value={email}
@@ -147,8 +150,8 @@ const Linkprofile = ({ profiles, setProfiles }) => {
             )}
             {editMode && (
               <div>
-                <button onClick={handleSave}>Save</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <Button onClick={handleSave} name="Save"></Button>
+                <Button onClick={handleCancel} name="Cancel"></Button>
               </div>
             )}
             {!editMode && (
@@ -159,7 +162,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
 
             <h6 className="firstName">Website</h6>
             {editMode ? (
-              <input
+              <Input
                 type="text"
                 name="website"
                 value={website}
@@ -170,8 +173,8 @@ const Linkprofile = ({ profiles, setProfiles }) => {
             )}
             {editMode && (
               <div>
-                <button onClick={handleSave}>Save</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <Button onClick={handleSave} name="Save"></Button>
+                <Button onClick={handleCancel} name="Cancel"></Button>
               </div>
             )}
             {!editMode && (
@@ -190,7 +193,7 @@ const Linkprofile = ({ profiles, setProfiles }) => {
           </div>
           <div className="avatar">
             <div className="avatardiv">
-              <img
+              <Avatar
                 src={profile?.image}
                 alt={`Profile ${index}`}
                 className="img1"
@@ -209,4 +212,4 @@ const Linkprofile = ({ profiles, setProfiles }) => {
     </div>
   );
 };
-export default Linkprofile;
+export default Profile;
